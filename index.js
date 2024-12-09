@@ -143,12 +143,15 @@ const updatePriceDisplay = () => {
   priceScreen.textContent = `Total: $${price.toFixed(2)}`;
 };
 
-purchaseBtn.addEventListener("click", handlePurchase);
-cash.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    handlePurchase();
-  }
-});
+const initEvents = () => {
+  purchaseBtn.addEventListener("click", handlePurchase);
+  cash.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      handlePurchase();
+    }
+  });
 
-updatePriceDisplay();
-displayDrawer(cid);
+  updatePriceDisplay();
+  displayDrawer(cid);
+};
+initEvents();
