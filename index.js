@@ -43,6 +43,25 @@ const calculateChange = (price, cash, cashInDrawer) => {
     console.log("Not enough money in the drawer to provide change.");
     return { status: "INSUFFICIENT_FUNDS", change: [] };
   }
+  const changeArray = DENOMINATIONS.map((denom) => {
+    const [denomName, totalAvailable] = cashInDrawer.find(
+      ([name]) => name === denom.name
+    ) || [denom.name, 0];
+    const totalAvailableCents = Math.round(totalAvailable * 100);
+    console.log(`\nChecking ${denomName}:`);
+    console.log("Total Available (cents):", totalAvailableCents);
+
+    const amountToGive = Math.min(
+      Math.floor(remainingChange / denom.value) * denom.value,
+      totalAvailableCents
+    );
+    console.log("Amount to Give (cents):", amountToGive);
+
+    remainingChange -= amountToGive;
+    console.log("Remaining Change (cents):", remainingChange);
+
+    return [denomName, amountToGive / 100];
+  }).filter(([_, amount]) => amount > 0);
 };
 
 // Pure function to update the UI state
@@ -70,10 +89,10 @@ const handlePurchase = () => {
   const result = calculateChange(price, cashInput, cid);
   // displayChange(result);
 
-  // Update drawer if status is OPEN
+  // // Update drawer if status is OPEN
   // if (result.status === "OPEN") {
   //   cid = updateCashDrawer(cid, result.change);
-  //   // displayDrawer(cid);
+  //   displayDrawer(cid);
   // }
 };
 
