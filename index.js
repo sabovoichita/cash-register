@@ -32,15 +32,15 @@ const DENOMINATIONS = [
 const calculateChange = (price, cash, cashInDrawer) => {
   const changeDue = Math.round((cash - price) * 100);
   let remainingChange = changeDue;
-  console.log("Change Due in cents:", changeDue);
+  // console.log("Change Due in cents:", changeDue);
   const totalDrawer = cashInDrawer.reduce(
     (sum, [_, amount]) => sum + Math.round(amount * 100),
     0
   );
-  console.log("Total Cash in Drawer (cents):", totalDrawer);
+  // console.log("Total Cash in Drawer (cents):", totalDrawer);
 
   if (remainingChange > totalDrawer) {
-    console.log("Not enough money in the drawer to provide change.");
+    // console.log("Not enough money in the drawer to provide change.");
     return { status: "INSUFFICIENT_FUNDS", change: [] };
   }
   const changeArray = DENOMINATIONS.map((denom) => {
@@ -48,41 +48,41 @@ const calculateChange = (price, cash, cashInDrawer) => {
       ([name]) => name === denom.name
     ) || [denom.name, 0];
     const totalAvailableCents = Math.round(totalAvailable * 100);
-    console.log(`\nChecking ${denomName}:`);
-    console.log("Total Available (cents):", totalAvailableCents);
+    // console.log(`\nChecking ${denomName}:`);
+    // console.log("Total Available (cents):", totalAvailableCents);
 
     const amountToGive = Math.min(
       Math.floor(remainingChange / denom.value) * denom.value,
       totalAvailableCents
     );
-    console.log("Amount to Give (cents):", amountToGive);
+    // console.log("Amount to Give (cents):", amountToGive);
 
     remainingChange -= amountToGive;
-    console.log("Remaining Change (cents):", remainingChange);
+    // console.log("Remaining Change (cents):", remainingChange);
 
     return [denomName, amountToGive / 100];
   }).filter(([_, amount]) => amount > 0);
 
   if (remainingChange > 0) {
-    console.log(
-      "Cannot provide exact change. Remaining Change (cents):",
-      remainingChange
-    );
+    // console.log(
+    //   "Cannot provide exact change. Remaining Change (cents):",
+    //   remainingChange
+    // );
     return { status: "INSUFFICIENT_FUNDS", change: [] };
   }
   const remainingDrawer = cashInDrawer.reduce((sum, [_, amount], i) => {
     const remainingForDenom =
       Math.round(amount * 100) - (changeArray[i]?.[1] || 0) * 100;
-    console.log(
-      `Remaining in drawer for ${cashInDrawer[i][0]}:`,
-      remainingForDenom / 100
-    );
+    // console.log(
+    //   `Remaining in drawer for ${cashInDrawer[i][0]}:`,
+    //   remainingForDenom / 100
+    // );
     return sum + remainingForDenom;
   }, 0);
 
   const status = remainingDrawer === 0 ? "CLOSED" : "OPEN";
-  console.log("Remaining Drawer Total (cents):", remainingDrawer);
-  console.log("Final Status:", status);
+  // console.log("Remaining Drawer Total (cents):", remainingDrawer);
+  // console.log("Final Status:", status);
   return {
     status,
     change: changeArray,
