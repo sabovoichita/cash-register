@@ -39,7 +39,10 @@ const calculateChange = (price, cash, cashInDrawer) => {
   );
   console.log("Total Cash in Drawer (cents):", totalDrawer);
 
-  return { status: "FUNDS", change: [] };
+  if (remainingChange > totalDrawer) {
+    console.log("Not enough money in the drawer to provide change.");
+    return { status: "INSUFFICIENT_FUNDS", change: [] };
+  }
 };
 
 // Pure function to update the UI state
@@ -65,13 +68,13 @@ const handlePurchase = () => {
   }
 
   const result = calculateChange(price, cashInput, cid);
-  displayChange(result);
+  // displayChange(result);
 
   // Update drawer if status is OPEN
-  if (result.status === "OPEN") {
-    cid = updateCashDrawer(cid, result.change);
-    displayDrawer(cid);
-  }
+  // if (result.status === "OPEN") {
+  //   cid = updateCashDrawer(cid, result.change);
+  //   // displayDrawer(cid);
+  // }
 };
 
 // Helper functions for UI updates
