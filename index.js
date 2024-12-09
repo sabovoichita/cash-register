@@ -62,6 +62,14 @@ const calculateChange = (price, cash, cashInDrawer) => {
 
     return [denomName, amountToGive / 100];
   }).filter(([_, amount]) => amount > 0);
+
+  if (remainingChange > 0) {
+    console.log(
+      "Cannot provide exact change. Remaining Change (cents):",
+      remainingChange
+    );
+    return { status: "INSUFFICIENT_FUNDS", change: [] };
+  }
 };
 
 // Pure function to update the UI state
@@ -89,7 +97,7 @@ const handlePurchase = () => {
   const result = calculateChange(price, cashInput, cid);
   // displayChange(result);
 
-  // // Update drawer if status is OPEN
+  // Update drawer if status is OPEN
   // if (result.status === "OPEN") {
   //   cid = updateCashDrawer(cid, result.change);
   //   displayDrawer(cid);
