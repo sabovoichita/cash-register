@@ -1,6 +1,7 @@
 const cash = document.querySelector("#cash");
 const changeDue = document.querySelector("#change-due");
 const purchaseBtn = document.querySelector("#purchase-btn");
+const priceScreen = document.getElementById("price-screen");
 
 let price = 1.87;
 let cid = [
@@ -42,9 +43,15 @@ const handlePurchase = () => {
   }
 };
 
+const updatePriceDisplay = () => {
+  priceScreen.textContent = `Total: $${price.toFixed(2)}`;
+};
+
 purchaseBtn.addEventListener("click", handlePurchase);
 cash.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
     handlePurchase();
   }
 });
+
+updatePriceDisplay();
