@@ -33,6 +33,12 @@ const calculateChange = (price, cash, cashInDrawer) => {
   const changeDue = Math.round((cash - price) * 100);
   let remainingChange = changeDue;
   console.log("Change Due in cents:", changeDue);
+  const totalDrawer = cashInDrawer.reduce(
+    (sum, [_, amount]) => sum + Math.round(amount * 100),
+    0
+  );
+  console.log("Total Cash in Drawer (cents):", totalDrawer);
+
   return { status: "FUNDS", change: [] };
 };
 
