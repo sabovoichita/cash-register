@@ -83,6 +83,10 @@ const calculateChange = (price, cash, cashInDrawer) => {
   const status = remainingDrawer === 0 ? "CLOSED" : "OPEN";
   console.log("Remaining Drawer Total (cents):", remainingDrawer);
   console.log("Final Status:", status);
+  return {
+    status,
+    change: changeArray,
+  };
 };
 
 // Pure function to update the UI state
@@ -108,13 +112,13 @@ const handlePurchase = () => {
   }
 
   const result = calculateChange(price, cashInput, cid);
-  // displayChange(result);
+  displayChange(result);
 
-  // // Update drawer if status is OPEN
-  // if (result.status === "OPEN") {
-  //   cid = updateCashDrawer(cid, result.change);
-  //   displayDrawer(cid);
-  // }
+  // Update drawer if status is OPEN
+  if (result.status === "OPEN") {
+    cid = updateCashDrawer(cid, result.change);
+    displayDrawer(cid);
+  }
 };
 
 // Helper functions for UI updates
