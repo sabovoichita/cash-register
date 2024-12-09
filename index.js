@@ -28,13 +28,12 @@ const DENOMINATIONS = [
   { name: "NICKEL", value: 5 },
   { name: "PENNY", value: 1 },
 ];
+
 const calculateChange = (price, cash, cashInDrawer) => {
-  console.log(
-    "Calculating change: cash-total(price) ",
-    price,
-    cash,
-    cashInDrawer
-  );
+  const changeDue = Math.round((cash - price) * 100);
+  let remainingChange = changeDue;
+  console.log("Change Due in cents:", changeDue);
+  return { status: "FUNDS", change: [] };
 };
 
 // Pure function to update the UI state
@@ -59,14 +58,23 @@ const handlePurchase = () => {
     return;
   }
 
-  const result = calculateChange(cashInput, price, cid);
-  // console.log(result);
+  const result = calculateChange(price, cashInput, cid);
+  displayChange(result);
 
   // Update drawer if status is OPEN
-  // if (result.status === "OPEN") {
-  //   cid = updateCashDrawer(cid, result.change);
-  //   displayDrawer(cid);
-  // }
+  if (result.status === "OPEN") {
+    cid = updateCashDrawer(cid, result.change);
+    displayDrawer(cid);
+  }
+};
+
+// Helper functions for UI updates
+const displayChange = ({ status, change }) => {
+  const display = changeDue;
+  display.innerHTML = `<p>Status: ${status}</p>`;
+  change.forEach(([denomination, amount]) => {
+    display.innerHTML += `<p>${denomination}: $${amount.toFixed(2)}</p>`;
+  });
 };
 
 const displayDrawer = (cashDrawer) => {
