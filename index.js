@@ -1,6 +1,7 @@
 const cash = document.querySelector("#cash");
 const changeDue = document.querySelector("#change-due");
 const purchaseBtn = document.querySelector("#purchase-btn");
+const drawerDisplay = document.getElementById("cash-drawer-display");
 const priceScreen = document.getElementById("price-screen");
 
 let price = 1.87;
@@ -43,6 +44,15 @@ const handlePurchase = () => {
   }
 };
 
+const displayDrawer = (cashDrawer) => {
+  drawerDisplay.innerHTML = cashDrawer
+    .map(
+      ([denomination, amount]) =>
+        `<p>${denomination}: $${amount.toFixed(2)}</p>`
+    )
+    .join("");
+};
+
 const updatePriceDisplay = () => {
   priceScreen.textContent = `Total: $${price.toFixed(2)}`;
 };
@@ -55,3 +65,4 @@ cash.addEventListener("keydown", (e) => {
 });
 
 updatePriceDisplay();
+displayDrawer(cid);
