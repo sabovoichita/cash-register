@@ -1,6 +1,7 @@
 const cash = document.querySelector("#cash");
 const changeDue = document.querySelector("#change-due");
 const purchaseBtn = document.querySelector("#purchase-btn");
+
 let price = 1.87;
 let cid = [
   ["PENNY", 1.01],
@@ -14,15 +15,36 @@ let cid = [
   ["ONE HUNDRED", 100],
 ];
 
-purchaseBtn.addEventListener("click", () => {
-  const cashValue = Number(cash.value);
-  if (cashValue < price) {
+const DENOMINATIONS = [
+  { name: "ONE HUNDRED", value: 10000 },
+  { name: "TWENTY", value: 2000 },
+  { name: "TEN", value: 1000 },
+  { name: "FIVE", value: 500 },
+  { name: "ONE", value: 100 },
+  { name: "QUARTER", value: 25 },
+  { name: "DIME", value: 10 },
+  { name: "NICKEL", value: 5 },
+  { name: "PENNY", value: 1 },
+];
+
+const handlePurchase = () => {
+  const cashInput = Number(cash.value);
+
+  if (cashInput < price) {
     alert("Customer does not have enough money to purchase the item");
-  } else if (cashValue === price) {
-    changeDue.textContent = "No change due - customer paid with exact cash";
-    console.log(cashValue === price);
-  } else {
-    changeDue.textContent = "Status: INSUFFICIENT_FUNDS";
-    console.log("cash value: ", cashValue, "price: ", price);
+    return;
+  }
+
+  if (cashInput === price) {
+    const display = changeDue;
+    display.innerHTML = "No change due - customer paid with exact cash";
+    return;
+  }
+};
+
+purchaseBtn.addEventListener("click", handlePurchase);
+cash.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    handlePurchase();
   }
 });
