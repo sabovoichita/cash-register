@@ -28,6 +28,22 @@ const DENOMINATIONS = [
   { name: "NICKEL", value: 5 },
   { name: "PENNY", value: 1 },
 ];
+const calculateChange = (price, cash, cashInDrawer) => {
+  console.log(
+    "Calculating change: cash-total(price) ",
+    price,
+    cash,
+    cashInDrawer
+  );
+};
+
+// Pure function to update the UI state
+const updateCashDrawer = (cashInDrawer, change) =>
+  cashInDrawer.map(([denomination, amount]) => {
+    const changeForDenom =
+      change.find(([name]) => name === denomination)?.[1] || 0;
+    return [denomination, Math.round((amount - changeForDenom) * 100) / 100];
+  });
 
 const handlePurchase = () => {
   const cashInput = Number(cash.value);
@@ -42,6 +58,15 @@ const handlePurchase = () => {
     display.innerHTML = "No change due - customer paid with exact cash";
     return;
   }
+
+  const result = calculateChange(cashInput, price, cid);
+  // console.log(result);
+
+  // Update drawer if status is OPEN
+  // if (result.status === "OPEN") {
+  //   cid = updateCashDrawer(cid, result.change);
+  //   displayDrawer(cid);
+  // }
 };
 
 const displayDrawer = (cashDrawer) => {
